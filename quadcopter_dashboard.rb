@@ -9,16 +9,20 @@ class SerialIO
     @frequency = frequency
 
     # app.addInput(@fd, INPUT_READ, method(:handleInput))
-    app.addTimeout(@frequency, method(:handleInput))
+    app.addTimeout(@frequency, method(:handle_input))
   end
 
-  def handleInput(*args)
-    puts @fd.readline           # blocks until line is read
+  def handle_input(*args)
+    parse_input(@fd.readline)           # blocks until line is read
     # poor man's buffer ensure's reasonably fresh data next time
     @fd.flush
   rescue EOFError               # probably not required for Arduino
   ensure
-    @app.addTimeout(@frequency, method(:handleInput))
+    @app.addTimeout(@frequency, method(:handle_input))
+  end
+
+  def parse_input(s)
+    puts s
   end
 end
 
