@@ -2,10 +2,11 @@ require 'fox16'
 include Fox
 
 class SerialIO
-  def initialize(app, frequency)
+  def initialize(app, window, frequency)
     # Until I can get my hands on the Arduino
     @fd = File.open('iamnotanarduino', 'r')
     @app = app
+    @window = window
     @frequency = frequency
 
     # app.addInput(@fd, INPUT_READ, method(:handleInput))
@@ -22,7 +23,8 @@ class SerialIO
   end
 
   def parse_input(s)
-    puts s
+    motors = s.split(' ').collect { |i| i.to_f / 180 }
+    @window.update_values(motors)
   end
 end
 
@@ -42,7 +44,13 @@ class DashboardWindow < FXMainWindow
                        )
     end
 
-    SerialIO.new(app, 100)
+    SerialIO.new(app, self, 100)
+  end
+
+  def update_values(motors)
+    motors.each.with_index do |m, i|
+      @motors[i].value = (m * 100).to_i
+    end
   end
 
   def create
