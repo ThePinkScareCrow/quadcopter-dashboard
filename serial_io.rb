@@ -12,7 +12,7 @@ class SerialIO
 
   def handle_input(*args)
     parse_input(@fd.readline)           # blocks until line is read
-    # poor man's buffer ensure's reasonably fresh data next time
+    # poor man's buffer ensures reasonably fresh data next time
     # TODO: check if this is of any use with the Arduino
     @fd.flush
   rescue EOFError               # probably not required for Arduino
@@ -21,7 +21,14 @@ class SerialIO
   end
 
   def parse_input(s)
-    motors = s.split(' ').collect { |i| i.to_f / 180 }
-    @window.update_values(motors)
+    values = s.split(' ').collect { |i| i.to_f }
+    if values.count == 11
+      angles_actual = values[0..2]
+      angles_desired = values[3..5]
+      throttle = values[6]
+      motors = values[7..10]
+
+      @window.update_values(angles_actual, angles_desired, throttle, motors)
+    end
   end
 end
