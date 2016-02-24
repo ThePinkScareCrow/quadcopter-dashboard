@@ -3,6 +3,7 @@ include Fox
 
 require_relative 'serial_io'
 require_relative 'pid_group'
+require_relative 'flight_controls_group'
 
 class DashboardWindow < FXMainWindow
   def initialize(app)
@@ -26,6 +27,13 @@ class DashboardWindow < FXMainWindow
                      )
     end
 
+    flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
+    flight_controls_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
+
+    flight_control = []
+    flight_control[0] = FlightControlsGroup.new(flight_controls_group, "Pitch")
+    flight_control[1] = FlightControlsGroup.new(flight_controls_group, "Roll")
+    flight_control[2] = FlightControlsGroup.new(flight_controls_group, "Yaw")
 
     pid_main_group = FXGroupBox.new(self, "PID", FRAME_RIDGE)
     pid_main_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
