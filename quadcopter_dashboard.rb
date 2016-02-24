@@ -24,9 +24,11 @@ class DashboardWindow < FXMainWindow
 
     pid_main_group = FXGroupBox.new(self, "PID", FRAME_RIDGE)
     pid_main_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
-    pitch_group = PIDGroup.new(pid_main_group, "Pitch")
-    roll_group = PIDGroup.new(pid_main_group, "Roll")
-    yaw_group = PIDGroup.new(pid_main_group, "Yaw")
+
+
+    PIDGroup.new(pid_main_group, "Pitch")
+    PIDGroup.new(pid_main_group, "Roll")
+    PIDGroup.new(pid_main_group, "Yaw")
   end
 
   def update_values(motors)
