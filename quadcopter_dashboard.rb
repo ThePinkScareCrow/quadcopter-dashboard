@@ -19,7 +19,7 @@ class DashboardWindow < FXMainWindow
     # configured in
     [3, 0, 2, 1].each do |i|
       @motors[i] = FXDataTarget.new(0.0)
-      @motor_dials[i] = FXDataTarget.new(0.0)
+      @motor_dials[i] = FXDataTarget.new(0)
       FXProgressBar.new(motors_matrix, @motor_dials[i], FXDataTarget::ID_VALUE,
                         PROGRESSBAR_NORMAL | LAYOUT_FILL |
                         PROGRESSBAR_DIAL | PROGRESSBAR_PERCENTAGE
@@ -50,7 +50,7 @@ class DashboardWindow < FXMainWindow
                     pitch_pid, roll_pid, yaw_pid, motors)
     motors.each.with_index do |m, i|
       @motors[i].value = m
-      @motor_dials[i].value = m > 0 ? (m * 100 / 180) : 0
+      @motor_dials[i].value = m > 0 ? (m * 100 / 180).to_i : 0
     end
   end
 
