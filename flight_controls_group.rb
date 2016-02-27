@@ -1,6 +1,8 @@
 class FlightControlsGroup < FXGroupBox
-  def initialize(parent, title)
-    super(parent, title, FRAME_RIDGE | LAYOUT_SIDE_LEFT)
+  def initialize(parent, window, control_name)
+    @window = window
+    @control_name = control_name
+    super(parent, @control_name.to_s.capitalize, FRAME_RIDGE | LAYOUT_SIDE_LEFT)
     self.setFont(FXFont.new(getApp(), "Helvetica", 14, 0))
 
     @control_actual = FXDataTarget.new(0.0)

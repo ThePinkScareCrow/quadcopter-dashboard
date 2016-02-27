@@ -33,9 +33,9 @@ class DashboardWindow < FXMainWindow
     flight_controls_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
 
     flight_control = []
-    flight_control[0] = FlightControlsGroup.new(flight_controls_group, "Pitch")
-    flight_control[1] = FlightControlsGroup.new(flight_controls_group, "Roll")
-    flight_control[2] = FlightControlsGroup.new(flight_controls_group, "Yaw")
+    flight_control[0] = FlightControlsGroup.new(flight_controls_group, self, :pitch)
+    flight_control[1] = FlightControlsGroup.new(flight_controls_group, self, :roll)
+    flight_control[2] = FlightControlsGroup.new(flight_controls_group, self, :yaw)
 
     pid_main_group = FXGroupBox.new(self, "PID", FRAME_RIDGE)
     pid_main_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
