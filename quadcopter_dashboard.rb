@@ -1,4 +1,5 @@
 require 'fox16'
+
 include Fox
 
 require_relative 'serial_io'
@@ -8,7 +9,8 @@ require_relative 'flight_controls_group'
 class DashboardWindow < FXMainWindow
   def initialize(app)
     super(app, "Quadcopter Dashboard", width: 1000, height: 700)
-    SerialIO.new(app, self, 100)
+
+    @arduino = SerialIO.new(app, self, 100)
 
     motors_matrix = FXMatrix.new(self, 4, MATRIX_BY_COLUMNS)
     @motors = []
@@ -44,7 +46,8 @@ class DashboardWindow < FXMainWindow
     PIDGroup.new(pid_main_group, "Yaw")
   end
 
-  def update_values(angles_actual, angles_desired, throttle, motors)
+  def update_values(angles_actual, angles_desired, throttle,
+                    pitch_pid, roll_pid, yaw_pid, motors)
     motors.each.with_index do |m, i|
       @motors[i].value = m
       @motor_dials[i].value = m > 0 ? (m * 100 / 180) : 0
