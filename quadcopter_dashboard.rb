@@ -41,9 +41,9 @@ class DashboardWindow < FXMainWindow
     pid_main_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
 
 
-    PIDGroup.new(pid_main_group, "Pitch")
-    PIDGroup.new(pid_main_group, "Roll")
-    PIDGroup.new(pid_main_group, "Yaw")
+    PIDGroup.new(pid_main_group, self, :pitch)
+    PIDGroup.new(pid_main_group, self, :roll)
+    PIDGroup.new(pid_main_group, self, :yaw)
   end
 
   def update_values(angles_actual, angles_desired, throttle,
