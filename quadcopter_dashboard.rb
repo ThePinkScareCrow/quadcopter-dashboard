@@ -30,21 +30,19 @@ class DashboardWindow < FXMainWindow
                      )
     end
 
-    flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
-    flight_controls_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
-
     @flight_controls = []
-    @flight_controls[0] = FlightControlsGroup.new(flight_controls_group, self, :pitch)
-    @flight_controls[1] = FlightControlsGroup.new(flight_controls_group, self, :roll)
-    @flight_controls[2] = FlightControlsGroup.new(flight_controls_group, self, :yaw)
+    flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
+    flight_controls_group.setFont(FXFont.new(app, "Helvetica", 18,
+                                             FONTWEIGHT_BOLD))
 
     pid_main_group = FXGroupBox.new(self, "PID", FRAME_RIDGE)
     pid_main_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
 
-
-    PIDGroup.new(pid_main_group, self, :pitch)
-    PIDGroup.new(pid_main_group, self, :roll)
-    PIDGroup.new(pid_main_group, self, :yaw)
+    [:pitch, :roll, :yaw].each.with_index do |control, i|
+      @flight_controls[i] = FlightControlsGroup.new(flight_controls_group, self,
+                                                    control)
+      PIDGroup.new(pid_main_group, self, control)
+    end
 
     ThrottleControl.new(flight_controls_group, self)
   end
