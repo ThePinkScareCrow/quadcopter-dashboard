@@ -54,6 +54,10 @@ class DashboardWindow < FXMainWindow
     end
   end
 
+  def update_arduino(command, value)
+    @arduino.send_output("%s%s" % [command, value])
+  end
+
   def create
     super
     show(PLACEMENT_SCREEN)

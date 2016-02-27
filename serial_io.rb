@@ -28,7 +28,10 @@ class SerialIO
     @app.addTimeout(@frequency, method(:handle_input))
   end
 
+  # Simply sends the string it receives to the Arduino followed by a
+  # newline character. It also echoes the same to STDOUT
   def send_output(string)
+    @sp.puts string
     STDOUT.puts string
   end
 
