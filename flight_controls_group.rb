@@ -26,7 +26,9 @@ class FlightControlsGroup < FXGroupBox
   def update_actual_angle(angles_actual)
   end
 
+  #######
   private
+  #######
 
     def update_desired_angle(sender, selector, data)
       @window.update_arduino(@control_name[0], data)

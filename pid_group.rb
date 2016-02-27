@@ -25,7 +25,11 @@ class PIDGroup < FXGroupBox
     end
   end
 
-  def update_value(k, data)
-    @window.update_arduino("%s%s" % [@name[0], k], data)
-  end
+  #######
+  private
+  #######
+
+    def update_value(k, data)
+      @window.update_arduino("%s%s" % [@name[0], k], data)
+    end
 end
