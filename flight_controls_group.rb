@@ -11,12 +11,14 @@ class FlightControlsGroup < FXGroupBox
     flight_control_matrix = FXMatrix.new(self, 2, MATRIX_BY_COLUMNS)
     FXLabel.new(flight_control_matrix, "Actual")
     FXLabel.new(flight_control_matrix, "Desired")
-    FXTextField.new(flight_control_matrix, 7, @control_actual, FXDataTarget::ID_VALUE,
-                    TEXTFIELD_READONLY
+    FXTextField.new(flight_control_matrix, 7, @control_actual,
+                    FXDataTarget::ID_VALUE, TEXTFIELD_READONLY
                    )
-    FXTextField.new(flight_control_matrix, 7, @control_desired, FXDataTarget::ID_VALUE,
-                    TEXTFIELD_ENTER_ONLY | TEXTFIELD_REAL | TEXTFIELD_NORMAL
-                   )
+    spinner = FXRealSpinner.new(flight_control_matrix, 7, @control_desired,
+                      FXDataTarget::ID_VALUE, FRAME_NORMAL
+                               )
+    spinner.setIncrement(5)
+    spinner.range = -180..180
 
     @control_desired.connect(SEL_COMMAND, method(:update_desired_angle))
   end
