@@ -23,7 +23,8 @@ class FlightControlsGroup < FXGroupBox
     @control_desired.connect(SEL_COMMAND, method(:update_desired_angle))
   end
 
-  def update_actual_angle(angles_actual)
+  def update_actual_angle(angle)
+    @control_actual.value = angle
   end
 
   #######

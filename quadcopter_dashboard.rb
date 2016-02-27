@@ -32,10 +32,10 @@ class DashboardWindow < FXMainWindow
     flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
     flight_controls_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
 
-    flight_control = []
-    flight_control[0] = FlightControlsGroup.new(flight_controls_group, self, :pitch)
-    flight_control[1] = FlightControlsGroup.new(flight_controls_group, self, :roll)
-    flight_control[2] = FlightControlsGroup.new(flight_controls_group, self, :yaw)
+    @flight_controls = []
+    @flight_controls[0] = FlightControlsGroup.new(flight_controls_group, self, :pitch)
+    @flight_controls[1] = FlightControlsGroup.new(flight_controls_group, self, :roll)
+    @flight_controls[2] = FlightControlsGroup.new(flight_controls_group, self, :yaw)
 
     pid_main_group = FXGroupBox.new(self, "PID", FRAME_RIDGE)
     pid_main_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
@@ -51,6 +51,10 @@ class DashboardWindow < FXMainWindow
     motors.each.with_index do |m, i|
       @motors[i].value = m
       @motor_dials[i].value = m > 0 ? (m * 100 / 180).to_i : 0
+    end
+
+    @flight_controls.each.with_index do |control, i|
+      control.update_actual_angle(angles_actual[i])
     end
   end
 
