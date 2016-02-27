@@ -5,6 +5,7 @@ include Fox
 require_relative 'serial_io'
 require_relative 'pid_group'
 require_relative 'flight_controls_group'
+require_relative 'throttle_control'
 
 class DashboardWindow < FXMainWindow
   def initialize(app)
@@ -44,6 +45,8 @@ class DashboardWindow < FXMainWindow
     PIDGroup.new(pid_main_group, self, :pitch)
     PIDGroup.new(pid_main_group, self, :roll)
     PIDGroup.new(pid_main_group, self, :yaw)
+
+    ThrottleControl.new(flight_controls_group, self)
   end
 
   def update_values(angles_actual, angles_desired, throttle,
