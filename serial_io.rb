@@ -32,6 +32,7 @@ class SerialIO
   # newline character. It also echoes the same to STDOUT
   def send_output(string)
     @sp.puts string
+    @sp.flush
     STDOUT.puts string
   end
 

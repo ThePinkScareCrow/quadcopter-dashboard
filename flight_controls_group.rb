@@ -17,8 +17,16 @@ class FlightControlsGroup < FXGroupBox
     FXTextField.new(flight_control_matrix, 7, @control_desired, FXDataTarget::ID_VALUE,
                     TEXTFIELD_ENTER_ONLY | TEXTFIELD_REAL | TEXTFIELD_NORMAL
                    )
+
+    @control_desired.connect(SEL_COMMAND, method(:update_desired_angle))
   end
 
-  def update_angles(angles_actual)
+  def update_actual_angle(angles_actual)
   end
+
+  private
+
+    def update_desired_angle(sender, selector, data)
+      @window.update_arduino(@control_name[0], data)
+    end
 end
