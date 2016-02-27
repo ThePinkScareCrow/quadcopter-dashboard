@@ -17,16 +17,19 @@ class SerialIO
     @window = window
     @frequency = frequency
 
+    # check for input from Arduino every @frequency milliseconds
     app.addTimeout(@frequency, method(:handle_input))
   end
 
   def handle_input(*args)
-    parse_input(@fd.readline)           # blocks until line is read
-    # poor man's buffer ensures reasonably fresh data next time
-    # TODO: check if this is of any use with the Arduino
-  rescue EOFError               # probably not required for Arduino
+    parse_input(@fd.readline)           # blocks until line is read or EOF
+  rescue EOFError
   ensure
     @app.addTimeout(@frequency, method(:handle_input))
+  end
+
+  def send_output(string)
+    STDOUT.puts string
   end
 
   ########
@@ -35,10 +38,10 @@ class SerialIO
 
     def parse_input(s)
       @buffer << s
-      if (line_start = @buffer.index('^')) &&
-         (line_end = @buffer.index('$', line_start + 1))
+      if (m = @buffer.match(/\^(.*?)\$/))
+        line = m[1]
+        puts line
 
-        line = @buffer.slice((line_start + 1)...line_end)
         values = line.split(' ').collect { |i| i.to_f }
         if values.count == NUM_VALUES_PER_LINE
           angles_actual = values[0..2]
@@ -54,8 +57,10 @@ class SerialIO
                                )
         end
 
+        # Clear buffer when one line has been read. This does lead to
+        # missing lines of data -- but is perfectly acceptable and
+        # ensures fresh data on next read
         @buffer.clear
-        puts line
       end
     end
 end
