@@ -18,13 +18,13 @@ class DashboardWindow < FXMainWindow
     # order of display is different from the order that the motors are
     # configured in
     [3, 0, 2, 1].each do |i|
-      @motors[i] = FXDataTarget.new(0)
-      @motor_dials[i] = FXDataTarget.new(0)
-      FXProgressBar.new(motors_matrix, @motors[i], FXDataTarget::ID_VALUE,
+      @motors[i] = FXDataTarget.new(0.0)
+      @motor_dials[i] = FXDataTarget.new(0.0)
+      FXProgressBar.new(motors_matrix, @motor_dials[i], FXDataTarget::ID_VALUE,
                         PROGRESSBAR_NORMAL | LAYOUT_FILL |
                         PROGRESSBAR_DIAL | PROGRESSBAR_PERCENTAGE
                        )
-      FXTextField.new(motors_matrix, 7, @motor_dials[i], FXDataTarget::ID_VALUE,
+      FXTextField.new(motors_matrix, 7, @motors[i], FXDataTarget::ID_VALUE,
                       TEXTFIELD_READONLY | LAYOUT_CENTER_X | LAYOUT_CENTER_Y
                      )
     end
