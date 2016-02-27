@@ -6,6 +6,7 @@ require_relative 'serial_io'
 require_relative 'pid_group'
 require_relative 'flight_controls_group'
 require_relative 'throttle_control'
+require_relative 'motor_gauges_matrix'
 
 class DashboardWindow < FXMainWindow
   def initialize(app)
@@ -13,22 +14,7 @@ class DashboardWindow < FXMainWindow
 
     @arduino = SerialIO.new(app, self, 100)
 
-    motors_matrix = FXMatrix.new(self, 4, MATRIX_BY_COLUMNS)
-    @motors = []
-    @motor_dials = []
-    # order of display is different from the order that the motors are
-    # configured in
-    [3, 0, 2, 1].each do |i|
-      @motors[i] = FXDataTarget.new(0.0)
-      @motor_dials[i] = FXDataTarget.new(0)
-      FXProgressBar.new(motors_matrix, @motor_dials[i], FXDataTarget::ID_VALUE,
-                        PROGRESSBAR_NORMAL | LAYOUT_FILL |
-                        PROGRESSBAR_DIAL | PROGRESSBAR_PERCENTAGE
-                       )
-      FXTextField.new(motors_matrix, 7, @motors[i], FXDataTarget::ID_VALUE,
-                      TEXTFIELD_READONLY | LAYOUT_CENTER_X | LAYOUT_CENTER_Y
-                     )
-    end
+    @motor_gauges_matrix = MotorGaugesMatrix.new(self, 4, MATRIX_BY_COLUMNS)
 
     @flight_controls = []
     flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
@@ -49,11 +35,7 @@ class DashboardWindow < FXMainWindow
 
   def update_values(angles_actual, angles_desired, throttle,
                     pitch_pid, roll_pid, yaw_pid, motors)
-    motors.each.with_index do |m, i|
-      @motors[i].value = m
-      @motor_dials[i].value = m > 0 ? (m * 100 / 180).to_i : 0
-    end
-
+    @motor_gauges_matrix.update_values(motors)
     @flight_controls.each.with_index do |control, i|
       control.update_actual_angle(angles_actual[i])
     end
