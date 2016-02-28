@@ -6,7 +6,7 @@ class SerialIO
   def initialize(app, window, frequency)
     @buffer = ""
     # The Arduino when removed and plugged in again, sometimes shows as ttyACM1
-    port_str = File.exists?('/dev/ttyACM0') ? '/dev/ttyACM0' : '/dev/ttyACM1'
+    port_str = File.exist?('/dev/ttyACM0') ? '/dev/ttyACM0' : '/dev/ttyACM1'
     baud_rate = 115200
     data_bits = 8
     stop_bits = 1
