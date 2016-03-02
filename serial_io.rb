@@ -13,6 +13,8 @@ class SerialIO
     parity = SerialPort::NONE
 
     @sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
+    @backup_file = File.open(ARGV.first, 'a') if ARGV.first
+
     @app = app
     @window = window
     @frequency = frequency
@@ -22,7 +24,9 @@ class SerialIO
   end
 
   def handle_input(*args)
-    parse_input(@fd.readline)           # blocks until line is read or EOF
+    string = @fd.readline
+    parse_input(string)           # blocks until line is read or EOF
+    write_unparsed(string) if @backup_file
   rescue EOFError
   ensure
     @app.addTimeout(@frequency, method(:handle_input))
@@ -39,6 +43,10 @@ class SerialIO
   ########
   private
   ########
+
+    def write_unparsed(string)
+      @backup_file.write(string)
+    end
 
     def parse_input(s)
       @buffer << s
