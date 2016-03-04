@@ -3,7 +3,7 @@ require 'serialport'
 NUM_VALUES_PER_LINE = 20
 
 class SerialIO
-  def initialize(app, window, frequency)
+  def initialize(app, window, refresh_frequency)
     @buffer = ""
     # The Arduino when removed and plugged in again, sometimes shows as ttyACM1
     port_str = File.exist?('/dev/ttyACM0') ? '/dev/ttyACM0' : '/dev/ttyACM1'
@@ -17,10 +17,10 @@ class SerialIO
 
     @app = app
     @window = window
-    @frequency = frequency
+    @refresh_interval = 1000 / refresh_frequency
 
-    # check for input from Arduino every @frequency milliseconds
-    app.addTimeout(@frequency, method(:handle_input))
+    # check for input from Arduino every @refresh_interval milliseconds
+    app.addTimeout(@refresh_interval, method(:handle_input))
   end
 
   def handle_input(*args)
@@ -29,7 +29,7 @@ class SerialIO
     write_unparsed(string) if @backup_file
   rescue EOFError
   ensure
-    @app.addTimeout(@frequency, method(:handle_input))
+    @app.addTimeout(@refresh_interval, method(:handle_input))
   end
 
   # Simply sends the string it receives to the Arduino followed by a

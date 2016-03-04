@@ -13,7 +13,7 @@ class DashboardWindow < FXMainWindow
     super(app, "Quadcopter Dashboard", width: 1250, height: 600)
     self.padLeft, self.padRight = 10, 10
     self.padTop, self.padBottom = 10, 10
-    @arduino = SerialIO.new(app, self, 100)
+    @arduino = SerialIO.new(app, self, 20)
 
     @motor_gauges_matrix = MotorGaugesMatrix.new(self, 4, MATRIX_BY_COLUMNS)
 
