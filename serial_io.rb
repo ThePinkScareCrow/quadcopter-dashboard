@@ -24,7 +24,7 @@ class SerialIO
   end
 
   def handle_input(*args)
-    string = @fd.readline
+    string = @sp.readline
     parse_input(string)           # blocks until line is read or EOF
     write_unparsed(string) if @backup_file
   rescue EOFError
