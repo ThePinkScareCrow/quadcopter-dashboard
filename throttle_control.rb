@@ -12,7 +12,7 @@ class ThrottleControl < FXGroupBox
     spinner.range = -180..180
 
     @throttle.connect(SEL_COMMAND) do |sender, sel, data|
-      @window.update_arduino('t', data)
+      @window.writeout('t', data)
     end
   end
 end

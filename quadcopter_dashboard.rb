@@ -42,7 +42,7 @@ class DashboardWindow < FXMainWindow
     end
   end
 
-  def update_arduino(command, value)
+  def writeout(command, value)
     @arduino.send_output("%s %s" % [command, value])
   end
 
