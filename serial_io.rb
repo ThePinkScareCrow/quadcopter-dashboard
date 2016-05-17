@@ -21,7 +21,6 @@ class SerialIO
   def send_output(string)
     @sp.puts string
     @sp.flush
-    STDOUT.puts string
   end
 
   ########
