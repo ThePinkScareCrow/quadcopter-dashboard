@@ -31,13 +31,6 @@ class DashboardWindow < FXMainWindow
     ThrottleControl.new(flight_controls_group, self)
   end
 
-  def update_values(angles_actual, angles_desired, throttle,
-                    pitch_pid, roll_pid, yaw_pid, motors)
-    @flight_controls.each.with_index do |control, i|
-      control.update_actual_angle(angles_actual[i])
-    end
-  end
-
   def writeout(command, value)
     @arduino.send_output("%s %s" % [command, value])
   end
