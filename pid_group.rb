@@ -11,13 +11,10 @@ class PIDGroup < FXGroupBox
       @control << FXDataTarget.new(0.0)
     end
 
-    pid_matrix = FXMatrix.new(self, 3, MATRIX_BY_COLUMNS)
+    pid_matrix = FXMatrix.new(self, 2, MATRIX_BY_COLUMNS)
 
     [:p, :i, :d].each.with_index do |k, i|
       FXLabel.new(pid_matrix, "k#{k}: ")
-      FXTextField.new(pid_matrix, 7, @control[i], FXDataTarget::ID_VALUE,
-                      TEXTFIELD_READONLY
-                     )
       FXRealSpinner.new(pid_matrix, 7, @control[i],
                         FXDataTarget::ID_VALUE, FRAME_NORMAL
                        ).setIncrement(0.01)
