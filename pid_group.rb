@@ -1,7 +1,8 @@
 class PIDGroup < FXGroupBox
-  def initialize(parent, window, name)
+  def initialize(parent, window, type, name)
     @name = name
     @window = window
+    @type = type
     super(parent, @name.to_s.capitalize, FRAME_RIDGE | LAYOUT_SIDE_LEFT)
     self.setFont(FXFont.new(getApp(), "Helvetica", 14, FONTWEIGHT_BOLD))
 
@@ -27,6 +28,6 @@ class PIDGroup < FXGroupBox
   #######
 
     def update_value(k, data)
-      @window.writeout("%s%s" % [@name[0], k], data)
+      @window.writeout("%s%s%s" % [@type[0], @name[0], k], data)
     end
 end
