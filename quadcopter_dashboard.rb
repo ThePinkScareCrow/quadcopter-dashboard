@@ -6,7 +6,6 @@ require_relative 'serial_io'
 require_relative 'pid_group'
 require_relative 'flight_controls_group'
 require_relative 'throttle_control'
-require_relative 'motor_gauges_matrix'
 
 class DashboardWindow < FXMainWindow
   def initialize(app)
@@ -14,8 +13,6 @@ class DashboardWindow < FXMainWindow
     self.padLeft, self.padRight = 10, 10
     self.padTop, self.padBottom = 10, 10
     @arduino = SerialIO.new(app, self, 20)
-
-    @motor_gauges_matrix = MotorGaugesMatrix.new(self, 4, MATRIX_BY_COLUMNS)
 
     @flight_controls = []
     flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
@@ -36,7 +33,6 @@ class DashboardWindow < FXMainWindow
 
   def update_values(angles_actual, angles_desired, throttle,
                     pitch_pid, roll_pid, yaw_pid, motors)
-    @motor_gauges_matrix.update_values(motors)
     @flight_controls.each.with_index do |control, i|
       control.update_actual_angle(angles_actual[i])
     end
