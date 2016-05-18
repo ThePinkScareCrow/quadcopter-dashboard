@@ -1,11 +1,10 @@
 class FlightControlsGroup < FXGroupBox
-  def initialize(parent, window, control_name)
+  def initialize(parent, window, name, target)
     @window = window
-    @control_name = control_name
+    @control_name = name
+    @control_desired = target
     super(parent, @control_name.to_s.capitalize, FRAME_RIDGE | LAYOUT_SIDE_LEFT)
     self.setFont(FXFont.new(getApp(), "Helvetica", 14, 0))
-
-    @control_desired = FXDataTarget.new(0.0)
 
     spinner = FXRealSpinner.new(self, 7, @control_desired,
                       FXDataTarget::ID_VALUE, FRAME_NORMAL

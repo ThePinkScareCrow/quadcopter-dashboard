@@ -13,7 +13,11 @@ class DashboardWindow < FXMainWindow
     self.padTop, self.padBottom = 10, 10
     @arduino = SerialIO.new(app, self, 20)
 
-    @flight_controls = []
+    @flight_controls = { yaw: FXDataTarget.new(0.0),
+                         pitch: FXDataTarget.new(0.0),
+                         roll: FXDataTarget.new(0.0),
+                         throttle: FXDataTarget.new(0.0) }
+
     flight_controls_group = FXGroupBox.new(self, "Flight Controls", FRAME_RIDGE)
     flight_controls_group.setFont(FXFont.new(app, "Helvetica", 18,
                                              FONTWEIGHT_BOLD))
@@ -24,9 +28,8 @@ class DashboardWindow < FXMainWindow
     rate_pid_group = FXGroupBox.new(self, "Rate", FRAME_RIDGE)
     rate_pid_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
 
-    [:pitch, :roll, :yaw, :throttle].each.with_index do |control, i|
-      @flight_controls[i] = FlightControlsGroup.new(flight_controls_group, self,
-                                                    control)
+    @flight_controls.each do |name, target|
+      FlightControlsGroup.new(flight_controls_group, self, name, target)
     end
 
     [:pitch, :roll, :yaw].each do |control|
