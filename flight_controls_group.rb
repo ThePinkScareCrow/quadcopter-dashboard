@@ -13,14 +13,14 @@ class FlightControlsGroup < FXGroupBox
     spinner.setIncrement(5)
     spinner.range = -180..180
 
-    @control_desired.connect(SEL_COMMAND, method(:update_desired_angle))
+    @control_desired.connect(SEL_COMMAND, method(:update_desired))
   end
 
   #######
   private
   #######
 
-    def update_desired_angle(sender, selector, data)
+    def update_desired(sender, selector, data)
       @window.writeout(@control_name[0], data)
     end
 end

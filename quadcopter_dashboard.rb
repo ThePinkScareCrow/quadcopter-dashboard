@@ -5,7 +5,6 @@ include Fox
 require_relative 'serial_io'
 require_relative 'pid_group'
 require_relative 'flight_controls_group'
-require_relative 'throttle_control'
 
 class DashboardWindow < FXMainWindow
   def initialize(app)
@@ -25,14 +24,15 @@ class DashboardWindow < FXMainWindow
     rate_pid_group = FXGroupBox.new(self, "Rate", FRAME_RIDGE)
     rate_pid_group.setFont(FXFont.new(app, "Helvetica", 18, FONTWEIGHT_BOLD))
 
-    [:pitch, :roll, :yaw].each.with_index do |control, i|
+    [:pitch, :roll, :yaw, :throttle].each.with_index do |control, i|
       @flight_controls[i] = FlightControlsGroup.new(flight_controls_group, self,
                                                     control)
+    end
+
+    [:pitch, :roll, :yaw].each do |control|
       PIDGroup.new(stab_pid_group, self, :stab, control)
       PIDGroup.new(rate_pid_group, self, :rate, control)
     end
-
-    ThrottleControl.new(flight_controls_group, self)
   end
 
   def writeout(command, value)
