@@ -5,8 +5,11 @@ include Fox
 require_relative 'serial_io'
 require_relative 'pid_group'
 require_relative 'flight_controls_group'
+require_relative 'control_canvas'
 
 class DashboardWindow < FXMainWindow
+  attr_accessor :flight_controls
+
   def initialize(app)
     super(app, "Quadcopter Dashboard", width: 1250, height: 600)
     self.padLeft, self.padRight = 10, 10
@@ -36,6 +39,8 @@ class DashboardWindow < FXMainWindow
       PIDGroup.new(stab_pid_group, self, :stab, control)
       PIDGroup.new(rate_pid_group, self, :rate, control)
     end
+
+    ControlCanvas.new(self, self)
   end
 
   def writeout(command, value)
