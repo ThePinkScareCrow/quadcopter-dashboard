@@ -3,15 +3,15 @@ class ControlCanvas < FXCanvas
     @window = window
     super(parent, width: 100, height: 100, opts: LAYOUT_FILL)
     # canvas.fill(FXRGB(255, 255, 255))
-    self.connect(SEL_MOUSEWHEEL, method(:throttle_scroll))
-    self.connect(SEL_KEYPRESS, method(:throttle_kill))
+    self.connect(SEL_MOUSEWHEEL, method(:scroll_handler))
+    self.connect(SEL_KEYPRESS, method(:keypress_handler))
   end
 
   #######
   private
   #######
 
-    def throttle_scroll(*, data)
+    def scroll_handler(*, data)
       if data.code == 120       # scroll up
         @window.flight_controls[:throttle].value += 1
         @window.writeout('t', @window.flight_controls[:throttle])
@@ -21,7 +21,7 @@ class ControlCanvas < FXCanvas
       end
     end
 
-    def throttle_kill(*, data)
+    def keypress_handler(*, data)
       if data.code == 32        # space
         @window.flight_controls[:throttle].value = 0
         @window.writeout('t', @window.flight_controls[:throttle])
