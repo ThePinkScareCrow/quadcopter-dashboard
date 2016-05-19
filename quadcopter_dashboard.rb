@@ -43,7 +43,7 @@ class DashboardWindow < FXMainWindow
       FlightControlsGroup.new(flight_controls_group, self, name, target)
     end
 
-    [:pitch, :roll, :yaw].each do |control|
+    [:yaw, :pitch, :roll].each do |control|
       PIDGroup.new(stab_pid_group, self, :stab, control)
       PIDGroup.new(rate_pid_group, self, :rate, control)
     end
