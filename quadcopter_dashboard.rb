@@ -12,7 +12,7 @@ class DashboardWindow < FXMainWindow
   attr_accessor :flight_controls
 
   def initialize(app)
-    super(app, "Quadcopter Dashboard",
+    super(app, Config::WINDOW_TITLE,
           width: Config::WINDOW_WIDTH, height: Config::WINDOW_HEIGHT)
     self.padLeft, self.padRight = 10, 10
     self.padTop, self.padBottom = 10, 10
