@@ -1,0 +1,6 @@
+module Config
+  CONTROLS_STEP = 1
+  TUNING_STEP = 0.005
+  WINDOW_WIDTH = 600
+  WINDOW_HEIGHT = 600
+end

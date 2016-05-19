@@ -6,12 +6,14 @@ require_relative 'serial_io'
 require_relative 'pid_group'
 require_relative 'flight_controls_group'
 require_relative 'control_canvas'
+require_relative 'config'
 
 class DashboardWindow < FXMainWindow
   attr_accessor :flight_controls
 
   def initialize(app)
-    super(app, "Quadcopter Dashboard", width: 1250, height: 600)
+    super(app, "Quadcopter Dashboard",
+          width: Config::WINDOW_WIDTH, height: Config::WINDOW_HEIGHT)
     self.padLeft, self.padRight = 10, 10
     self.padTop, self.padBottom = 10, 10
 

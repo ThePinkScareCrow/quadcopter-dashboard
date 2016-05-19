@@ -1,3 +1,5 @@
+require_relative 'config'
+
 class FlightControlsGroup < FXGroupBox
   def initialize(parent, window, name, target)
     @window = window
@@ -9,7 +11,7 @@ class FlightControlsGroup < FXGroupBox
     spinner = FXRealSpinner.new(self, 7, @control_desired,
                       FXDataTarget::ID_VALUE, FRAME_NORMAL
                                )
-    spinner.setIncrement(5)
+    spinner.setIncrement(Config::CONTROLS_STEP)
     spinner.range = -180..180
 
     @control_desired.connect(SEL_COMMAND, method(:update_desired))
