@@ -14,7 +14,13 @@ class DashboardWindow < FXMainWindow
     super(app, "Quadcopter Dashboard", width: 1250, height: 600)
     self.padLeft, self.padRight = 10, 10
     self.padTop, self.padBottom = 10, 10
-    @arduino = SerialIO.new(app, self, 20)
+
+    begin
+      @arduino = SerialIO.new(app, self, 20)
+    rescue => e
+      puts e
+      @arduino = nil
+    end
 
     @flight_controls = { yaw: FXDataTarget.new(0.0),
                          pitch: FXDataTarget.new(0.0),
@@ -44,7 +50,7 @@ class DashboardWindow < FXMainWindow
   end
 
   def writeout(command, value)
-    @arduino.send_output("%s %s" % [command, value])
+    @arduino.send_output("%s %s" % [command, value]) if @arduino
     STDOUT.puts("%s %s" % [command, value])
   end
 
