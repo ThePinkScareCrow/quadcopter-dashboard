@@ -8,15 +8,15 @@ class PIDGroup < FXGroupBox
     super(parent, @name.to_s.capitalize, FRAME_RIDGE | LAYOUT_SIDE_LEFT)
     self.setFont(FXFont.new(getApp(), "Helvetica", 14, FONTWEIGHT_BOLD))
 
-    # [kp, ki, kd]
+    # [kp, ki, kd, kw]
     @control = []
-    3.times do
+    4.times do
       @control << FXDataTarget.new(0.0)
     end
 
     pid_matrix = FXMatrix.new(self, 2, MATRIX_BY_COLUMNS)
 
-    [:p, :i, :d].each.with_index do |k, i|
+    [:p, :i, :d, :w].each.with_index do |k, i|
       FXLabel.new(pid_matrix, "k#{k}: ")
       FXRealSpinner.new(pid_matrix, 7, @control[i],
                         FXDataTarget::ID_VALUE, FRAME_NORMAL
