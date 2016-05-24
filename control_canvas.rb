@@ -15,10 +15,10 @@ class ControlCanvas < FXCanvas
     def scroll_handler(*, data)
       if data.code == 120       # scroll up
         @window.flight_controls[:throttle].value += 1
-        @window.writeout('t', @window.flight_controls[:throttle])
+        @window.writeout('t', @window.flight_controls[:throttle].value)
       elsif data.code == -120   # scroll down
         @window.flight_controls[:throttle].value -= 1
-        @window.writeout('t', @window.flight_controls[:throttle])
+        @window.writeout('t', @window.flight_controls[:throttle].value)
       end
     end
 
