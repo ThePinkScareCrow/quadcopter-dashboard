@@ -52,8 +52,8 @@ class DashboardWindow < FXMainWindow
   end
 
   def writeout(command, value)
-    @arduino.send_output("%s %s" % [command, value]) if @arduino
-    STDOUT.puts("%s %s" % [command, value])
+    @arduino.send_output("%s %.3f" % [command, value]) if @arduino
+    STDOUT.puts("%s %.3f" % [command, value])
   end
 
   def create
