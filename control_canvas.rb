@@ -39,6 +39,12 @@ class ControlCanvas < FXCanvas
       when 68, 100              # d
         update_key = :roll
         value = 10
+      when 65362, 65363         # up, or right
+        update_key = :throttle
+        value = @window.flight_controls[update_key].value + 1
+      when 65364, 65361         # down, or left
+        update_key = :throttle
+        value = @window.flight_controls[update_key].value - 1
       end
 
       unless update_key.nil?
